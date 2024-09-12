@@ -6,8 +6,8 @@ services:
     build:
       context: ./video_processing/
       dockerfile: Dockerfile
-    # command: gunicorn video_processing.wsgi:application --bind 0.0.0.0:8000
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn video_processing.wsgi:application --bind 0.0.0.0:8000 # for production
+    # command: python manage.py runserver 0.0.0.0:8000 #for local
 
     ports:
       - "8000:8000"
