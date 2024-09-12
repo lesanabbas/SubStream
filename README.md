@@ -32,6 +32,8 @@ Make sure you have the following installed:
 
 ### Running the Project with Docker
 
+#### Option 1: Build Locally
+
 1. **Install Redis**:
    - On Linux: Run the following command to install Redis:
      ```bash
@@ -53,6 +55,21 @@ Make sure you have the following installed:
    - Alternatively, combine both commands:
      ```bash
      docker-compose --env-file video_processing/.env up --build
+     ```
+
+#### Option 2: Use Public Docker Images
+
+1. **Pull the Prebuilt Docker Images**:
+   - You can pull the prebuilt Docker images directly from Docker Hub:
+     ```bash
+     docker pull lesanabbas/substream-celery
+     docker pull lesanabbas/substream
+     ```
+
+2. **Run the Docker Containers**:
+   - After pulling the images, run the containers using `docker-compose`:
+     ```bash
+     docker-compose --env-file video_processing/.env up
      ```
 
 ---
