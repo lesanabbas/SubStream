@@ -1,0 +1,44 @@
+<h1>{{ video.title }}</h1>
+
+<video id="video-player" width="600" controls crossorigin="anonymous">
+    <source src="{{ video.video_file.url }}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<script>
+    let startTime = "{{ start_time|default_if_none:'' }}";
+    startTime = startTime ? startTime : undefined;
+
+    function timeStringToSeconds(timeString) {
+        if (!timeString) return 0;
+        var parts = timeString.split(':');
+        return parseInt(parts[0], 10) * 3600 + parseInt(parts[1], 10) * 60 + parseInt(parts[2], 10);
+    }
+
+    let videoPlayer = document.getElementById('video-player');
+    
+    // Dynamically add subtitle track
+    function addSubtitleTrack() {
+        const track = document.createElement('track');
+        track.label = 'English';
+        track.kind = 'subtitles';
+        track.srclang = 'en';
+        track.src = "{{ video.video_file.url|cut:'.mp4' }}.vtt";
+        track.default = true;
+
+        videoPlayer.appendChild(track);
+    }
+
+    // Add event listener for metadata loaded
+    videoPlayer.addEventListener('loadedmetadata', () => {
+        // Add subtitle track dynamically
+        addSubtitleTrack();
+
+        // Set the video current time based on the start time
+        if (startTime) {
+            videoPlayer.currentTime = timeStringToSeconds(startTime);
+        }
+
+        videoPlayer.play();
+    });
+</script>
